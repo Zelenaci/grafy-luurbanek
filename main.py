@@ -29,22 +29,23 @@ class Application(tk.Tk):
         self.var_entryXLabel.set("X label")
         self.var_entryYLabel.set("Y label")
     
+        vcmd = (self.register(self.callback))
 
         self.title(self.name)
 
         self.lbl1 = tk.Label(self, text="Frekvence")
         self.lbl1.grid(row=0,column=0)
-        self.entryFre = tk.Entry(self, textvariable = self.var_entryFre)
+        self.entryFre = tk.Entry(self, validate="all", validatecommand=(vcmd, '%P'), textvariable = self.var_entryFre)
         self.entryFre.grid(row=1,column=0)
 
         self.lbl2 = tk.Label(self, text="Amplituda")
         self.lbl2.grid(row=2,column=0)
-        self.entryAmp = tk.Entry(self, textvariable = self.var_entryAmp)
+        self.entryAmp = tk.Entry(self, validate="all", validatecommand=(vcmd, '%P'), textvariable = self.var_entryAmp)
         self.entryAmp.grid(row=3,column=0)
 
         self.lbl3 = tk.Label(self, text="Počet period")
         self.lbl3.grid(row=4,column=0)
-        self.entryPer = tk.Entry(self, textvariable = self.var_entryPer)
+        self.entryPer = tk.Entry(self, validate="all", validatecommand=(vcmd, '%P'), textvariable = self.var_entryPer)
         self.entryPer.grid(row=5,column=0)
 
         self.lbl4 = tk.Label(self, text="Title")
@@ -71,8 +72,6 @@ class Application(tk.Tk):
         self.btn = tk.Button(self, text="Ukonči program", command=self.quit)
         self.btn.grid(row=14,column=0)
                 
-    def quit(self, event=None):
-        super().quit()
     
     def Zhodnot(self):
         self.fre = self.var_entryFre.get()
@@ -109,6 +108,15 @@ class Application(tk.Tk):
         pl.plot(x,y)
         pl.grid(True)
         pl.show()
+
+    def callback(self, P):
+        if str.isdigit(P) or P == "":
+            return True
+        else:
+            return False
+
+    def quit(self, event=None):
+        super().quit()
 
 app = Application()
 app.mainloop()
